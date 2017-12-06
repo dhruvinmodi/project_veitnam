@@ -152,3 +152,37 @@ void tuneCircularRotation ()
   }
   
 }
+
+
+/*This function will acclerate motors from 0 to max_speed.
+ * 0 < max_speed < 200
+ *dir= 'f' for forward and 'b' for backward
+*/
+void accelerate(char dir,int max_speed)
+{
+  int strength=0;
+  if(dir=='f')
+  {
+    digitalWrite(c3,HIGH);
+    digitalWrite(cc2,HIGH);
+    while(strength<=max_speed)
+    {
+      analogWrite(pwm3,strength);
+      analogWrite(pwm2,(strength-10));
+      delay(200);
+      strength+=10;
+    }
+  }
+  else if(dir=='b')
+  {
+    digitalWrite(cc3,HIGH);
+    digitalWrite(c2,HIGH);
+    while(strength<=max_speed)
+    {
+      analogWrite(pwm3,strength);
+      analogWrite(pwm2,(strength-10));
+      delay(200);
+      strength+=10;
+    }
+  }
+}
