@@ -58,69 +58,96 @@ void motorSpeed ( int s1 , int s2 , int s3 )
 void motorDirection ( int d1 , int d2 , int d3 )
 {
 
+  boolean cWState1 = LOW , cWState2 = LOW , cWState3 = LOW , cCWState1 = LOW , cCWState2 = LOW , cCWState3 = LOW ;
+  
   if ( d1 == 0 )
   {
 
-    digitalWrite ( cWPin1 , LOW ) ;
-    digitalWrite ( cCWPin1 , LOW ) ;
+    cWState1 = LOW ;
+    cCWState1 = LOW ;
     
   }
   else if ( d1 == 1 )
   {
 
-    digitalWrite ( cWPin1 , HIGH ) ;
-    digitalWrite ( cCWPin1 , LOW ) ;
+    cWState1 = HIGH ;
+    cCWState1 = LOW ;
     
   }
   else
   {
 
-    digitalWrite ( cWPin1 , LOW ) ;
-    digitalWrite ( cCWPin1 , HIGH ) ;
+    cWState1 = LOW ;
+    cCWState1 = HIGH ;
     
   }
 
   if ( d2 == 0 )
   {
 
-    digitalWrite ( cWPin2 , LOW ) ;
-    digitalWrite ( cCWPin2 , LOW ) ;
+    cWState2 = LOW ;
+    cCWState2 = LOW ;
     
   }
   else if ( d2 == 1 )
   {
 
-    digitalWrite ( cWPin2 , HIGH ) ;
-    digitalWrite ( cCWPin2 , LOW ) ;
+    cWState2 = HIGH ;
+    cCWState2 = LOW ;
     
   }
   else
   {
 
-    digitalWrite ( cWPin2 , LOW ) ;
-    digitalWrite ( cCWPin2 , HIGH ) ;
+    cWState2 = LOW ;
+    cCWState2 = HIGH ;
     
   }
 
   if ( d3 == 0 )
   {
 
-    digitalWrite ( cWPin3 , LOW ) ;
-    digitalWrite ( cCWPin3 , LOW ) ;
+    cWState3 = LOW ;
+    cCWState3 = LOW ;
     
   }
   else if ( d3 == 1 )
   {
 
-    digitalWrite ( cWPin3 , HIGH ) ;
-    digitalWrite ( cCWPin3 , LOW ) ;
+    cWState3 = HIGH ;
+    cCWState3 = LOW ;
     
   }
   else
   {
 
-    digitalWrite ( cWPin3 , LOW ) ;
-    digitalWrite ( cCWPin3 , HIGH ) ;
+    cWState3 = LOW ;
+    cCWState3 = HIGH ;
+    
+  }
+
+  digitalWrite ( cWPin1 , cWState1 ) ;
+  digitalWrite ( cCWPin1 , cCWState1 ) ;
+  digitalWrite ( cWPin2 , cWState2 ) ;
+  digitalWrite ( cCWPin2 , cCWState2 ) ;
+  digitalWrite ( cWPin3 , cWState3 ) ;
+  digitalWrite ( cCWPin3 , cCWState3 ) ;
+  
+}
+
+void tuneCircularRotation ()
+{
+
+  int dt = 0 , i = 0 ;
+
+  for ( i = 0 ; i < 10 ; i += 1 )
+  {
+
+    delay ( 5000 ) ;
+    motorDirection ( 1 , 1 , 1 ) ;
+    accelerate ( 1 , 1 , 1 ) ;
+    delay ( dt ) ;
+    brake ( 1 , 1 , 1 ) ;
     
   }
   
