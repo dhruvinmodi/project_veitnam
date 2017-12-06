@@ -12,6 +12,8 @@ int flag = 1 ;
 
 void setup ()
 {
+
+//  Serial.begin ( 9600 ) ;
   
   pinMode ( cWPin1 , OUTPUT ) ;
   pinMode ( cWPin2 , OUTPUT ) ;
@@ -39,10 +41,12 @@ void setup ()
 void loop ()
 {
 
-  delay ( 10000 ) ;
-  motorDirection ( 0 , 1 , -1 ) ;
-  motorSpeed ( 0 , 50 , 50 );
-  delay ( 10000 ) ;
+  delay ( 5000 ) ;
+  forward () ;
+//  motorDirection ( 0 , -1 , 1 ) ;
+//  motorSpeed ( 0 , 50 , 50 ) ;
+  delay ( 5000 ) ;
+  brake () ;
 
 }
 
@@ -145,9 +149,9 @@ void tuneCircularRotation ()
 
     delay ( 5000 ) ;
     motorDirection ( 1 , 1 , 1 ) ;
-    accelerate ( 1 , 1 , 1 ) ;
+    accelerate ( 1 , 1 ) ;
     delay ( dt ) ;
-    brake ( 1 , 1 , 1 ) ;
+    brake () ;
     
   }
   
@@ -160,29 +164,32 @@ void tuneCircularRotation ()
 */
 void accelerate(char dir,int max_speed)
 {
-  int strength=0;
-  if(dir=='f')
-  {
-    digitalWrite(c3,HIGH);
-    digitalWrite(cc2,HIGH);
-    while(strength<=max_speed)
+  int diff = 10 ;
+  int strength = max_speed * diff / 100 ;
+  int max_speedT = max_speed * 97 / 100 ;
+  int strengthT = max_speedT * diff / 100 ;
+  while(diff<=100)
     {
-      analogWrite(pwm3,strength);
-      analogWrite(pwm2,(strength-10));
-      delay(200);
-      strength+=10;
+      motorSpeed ( 0 , strength , strengthT ) ;
+      delay(10);
+      diff += 10 ;
+      strength = max_speed * diff / 100 ;
+      strengthT = max_speedT * diff / 100 ;
     }
-  }
-  else if(dir=='b')
-  {
-    digitalWrite(cc3,HIGH);
-    digitalWrite(c2,HIGH);
-    while(strength<=max_speed)
-    {
-      analogWrite(pwm3,strength);
-      analogWrite(pwm2,(strength-10));
-      delay(200);
-      strength+=10;
-    }
-  }
+}
+
+void forward ()
+{
+
+  motorDirection ( 0 , -1 , 1 ) ;
+  accelerate ( 's' , 50 ) ;
+  
+}
+
+void brake ()
+{
+
+  motorSpeed ( 0 , 0 , 0 ) ;
+  motorDirection ( 0 , 0 , 0 ) ;
+  
 }
